@@ -1,2 +1,500 @@
 C# Question  With Answer 
-Hello C#
+
+1. What is ASP.NET?
+ASP.NET is a server-side technology used for developing dynamic websites and web applications on the internet. It also produces data-driven web applications.
+Microsoft released ASP.NET in 2002 to build dynamic websites and web applications using the .NET framework.
+
+2. What is the ASP.NET Life Cycle, and list the types of Life Cycle?
+When ASP.NET pages run, it goes through several life cycle steps, which perform a series of actions like initialization, running, restoring, and rendering.
+
+Life Cycle is classified into two categories.
+Application Life Cycle: The user requests to access the application.
+Page Life Cycle: The cycle has phases like initialization, restoring, execution, and page rendering. 
+
+
+3. What is MVC?
+MVC is a software architectural pattern that divides an application into three main parts: Model, View, and Controller.
+
+Model: The model helps to create the application's data domain and represents the application's public properties and business logic.
+View: View represents the data tables, charts, and diagrams by collecting the data from the model.
+Controller: The controller helps handle user interactions and controls the flow of the application.
+
+
+4. What is CLR?
+CLR is the basic Common Language Runtime virtual machine component of the .NET framework used to run the code. It manages and executes .NET programs. And implements a Virtual Execution System (VES) internally.
+Services provided by CLR=>Verification,Garbage collection,Security,Memory management
+
+5. What is IIS? And why do you use it?
+Internet Information Server (IIS) is the most popular web server used to host and provide internet-based services to ASP.NET and ASP Web applications.
+IIS has its process engine to handle the requests. Using an IIS computer can work as a web server and provide functionality for deploying ASP.NET web applications. It is also responsible for responding to users' requests.
+
+6. List types of Application Life Cycle.
+Application Life Cycle is of five types:
+Application Start: Application Start is a method you execute when a user requests.
+Object Creation: Object Creation contains all the information about current requests and browsing information.
+HTTP Application: HTTP Application processes all subsequent requests sent to the application.
+Dispose: Dispose is responsible for releasing manually unwanted resources.
+Application End: Application End helps to unload the memory of an application.
+
+7. List the advantages of using ASP.NET
+ASP.NET is a development framework used for developing web applications. It is one of the most preferred web development technologies at present.
+There are a lot of benefits of using ASP.NET. Here are some advantages:
+Applications created using ASP.NET show better performance
+ASP.NET provides multi-development modes for the applications
+Applications created using ASP.NET can be used across the globe
+ASP.NET is language-independent.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Feature  	   Value Type	                             Reference Type
+Storage	Stored     in stack	                             Stored in heap
+Data Access	   Directly holds data	                     Holds a reference (address) to the data
+Examples	   int, float, bool, char, struct	     class, interface, array, string, object
+Modification	   Changes do not affect original data       Changes affect the original object
+
+Ex=> int a = 10;  // Value type
+int b = a;   // Copy of value, changes in 'b' do not affect 'a'
+
+class Person { public string Name; }
+Person p1 = new Person() { Name = "John" };
+Person p2 = p1;  // Reference copy, changes in 'p2' affect 'p1'
+
+
+------------------------------------------------------------------------------------------------------
+
+Feature   	    Stack     	                             Heap
+Storage	Stores      value types & method calls 	             Stores reference types
+Size	            Small & fixed size                       Large & dynamic
+Access Speed        Faster	                             Slower (due to garbage collection)
+Lifetime	    Destroyed after method execution         Exists until garbage collection
+
+Ex => struct MyStruct { public int X; }  // Value type
+class MyClass { public int X; }   // Reference type
+-----------------------------------------------------------------------------------------------------------------
+
+Feature	                           Abstract Class	                    Interface
+Method Implementation	      Can have implemented methods	        Only method declarations (before C# 8)
+Multiple Inheritance	     ❌ No multiple inheritance	                ✅ Supports multiple inheritance
+Access Modifiers	     ✅ Supports public, private, protected	❌ Only public methods allowed
+
+Ex => abstract class Animal { public abstract void Speak(); }  // Abstract class
+interface IAnimal { void Speak(); }  // Interface
+
+-------------------------------------------------------------------------------------------------------------------
+Feature	             const           	              readonly	                                 static
+Value Change	    ❌ Cannot change	       ✅ Can change in constructor       	✅ Can change anytime
+Initialization      At compile time 	       At runtime (in constructor)	        Shared across all instances
+Usage	            const int x = 10;   	readonly int y;	                        static int z;
+
+---------------------------------------------------------------------------------------------------------------------------
+
+Feature	                         ref 	               out	            in
+Initialization Before Passing	✅ Required	    ❌ Not required 	  ✅ Required
+Modification Inside Method	✅ Allowed	    ✅ Required	          ❌ Not allowed
+Usage	                        Method(ref a);      Method(out a);	  Method(in a);
+
+Ex => void Example(ref int a) { a += 5; }  // Uses existing value
+void Example(out int a) { a = 10; }  // Must be assigned
+void Example(in int a) { Console.WriteLine(a); }  // Read-only
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+Feature          	IEnumerable<T>                   	IQueryable<T>
+Execution	     In-memory execution	            Database-side execution (lazy loading)
+Performance	     Slower for large data	            Optimized for large datasets
+Use Case	     Collections like List<T>	            LINQ to SQL queries
+
+Ex => IEnumerable<int> nums = list.Where(x => x > 5);  // Filters in memory
+IQueryable<int> nums = db.Table.Where(x => x > 5);  // Filters in SQL
+
+---------------------------------------------------------------------------------------------------------------------------------
+Feature          	string                    	StringBuilder
+Mutability	     Immutable                  	Mutable
+Performance	     Slow for modifications	        Faster for multiple changes
+Use Case	     Small string operations	        Large text processing
+
+Ex => string s = "Hello";
+s += " World";  // Creates new string
+
+StringBuilder sb = new StringBuilder("Hello");
+sb.Append(" World");  // Modifies existing object
+
+----------------------------------------------------------------------------------------------------------------
+
+Feature                  	Array                    	List<T>
+Size	                        Fixed	                        Dynamic
+Performance	                Faster	                        Slightly slower
+Usage	                        int[] arr = new int[5]; 	List<int> list = new List<int>();
+
+------------------------------------------------------------------------------------------------------------------------
+
+Feature                 	Synchronous                	Asynchronous
+Execution	                Blocks the thread	        Non-blocking (runs in background)
+Performance	                Slower if tasks take time	Faster, prevents UI freezing
+Example                  	Method();	                await MethodAsync();
+
+---------------------------------------------------------------------------------------------------------------------
+Feature	                        throw	                                  throw ex
+Stack Trace	             Preserves original stack trace	        Resets stack trace
+Usage	                     Used inside catch block to rethrow 	Used to throw new exception
+
+--------------------------------------------------------------------------------------------------------------------
+
+Feature                 	Early Binding                      	Late Binding
+When Resolved?	                Compile-time                      	Runtime
+Performance	                Faster                               	Slower
+Example	                        Direct method calls	                Reflection (dynamic)
+
+Ex => // Early Binding (Compile-time)
+MyClass obj = new MyClass();
+obj.Method();
+
+// Late Binding (Runtime)
+dynamic dynObj = Activator.CreateInstance(typeof(MyClass));
+dynObj.Method();
+
+------------------------------------------------------------------------------------------------------------
+
+Feature          	== Operator	                   .Equals() Method
+Comparison	  Checks reference for objects	        Checks value for objects
+Works With	  Value types & reference types	        Mostly for objects
+
+Ex => 
+string a = "Hello";
+string b = new string("Hello");
+
+Console.WriteLine(a == b);    // True (compares values)
+Console.WriteLine(a.Equals(b)); // True (compares values)
+
+------------------------------------------------------------------------------------------------
+
+Feature	                Dispose()	                Finalize()
+Called By	  Manually (using block)	       GC (Garbage Collector)
+Performance	  Faster	                       Slower
+Usage	          IDisposable interface	               Destructor (~ClassName())
+
+Ex =>
+class MyClass : IDisposable
+{
+    public void Dispose() { Console.WriteLine("Disposed"); }
+    ~MyClass() { Console.WriteLine("Finalized"); }
+}
+
+------------------------------------------------------------------------------------------
+Feature	                      var                   	dynamic
+Type Determination	 Compile-time                	Runtime
+Performance	             Faster	                Slower
+ 
+Ex =>
+var a = 10;    // Type inferred at compile-time
+dynamic b = 10; // Type resolved at runtime
+
+----------------------------------------------------------------------------------------
+Feature	               Tuple               	             Anonymous Type
+Mutability	    ✅ Mutable              	             ❌ Immutable
+Reusability	   ✅ Reusable           	             ❌ One-time use
+Usage	        (int, string) person = (1, "John");	     var person = new { Id = 1, Name = "John" };
+
+------------------------------------------------------------------------------------------------------------
+Feature          	ViewBag         	ViewData         	TempData
+Type	                Dynamic         	Dictionary	        Dictionary
+Scope	                Single request   	Single request	        Available for next request
+Use Case	      Passing data to View	Similar to ViewBag	Redirect data
+
+Ex =>
+ViewBag.Message = "Hello";  // Dynamic  
+ViewData["Message"] = "Hello";  // Dictionary  
+TempData["Message"] = "Hello";  // Survives redirect  
+
+------------------------------------------------------------------------------------------
+
+Feature      	Session         	Cache	          Cookies	      ViewState
+Scope	        User-specific	      App-wide         	Client-side	    Page-specific
+Storage	        Server memory         Server memory	Browser	            Hidden field
+Lifetime	Until session ends	Configurable	Based on expiry	    Page lifecycle
+
+EX =>
+Session["UserID"] = 123;  // Store user session  
+Cache["Data"] = "CachedData";  // Store data  
+Response.Cookies["UserName"].Value = "John";  // Store in browser  
+ViewState["Counter"] = 1;  // Store in hidden field  
+
+
+Q 1. What are the different return types in MVC?
+Answer
+
+Return View
+Return partial View
+Return Redirect
+Redirect To Action
+Return content
+Return JSON
+Return JavaScript
+Return File
+
+Q 2. What is the difference between ViewBag, ViewData, and TempData in MVC?
+Answer
+
+ViewBag is a dynamic object to pass the data from Controller to View. ViewData is a dictionary object to pass the data from Controller to View, where data is passed in the form of key-value pair. TempData is a dictionary object to pass the data from one action to another action in the same Controller or different Controllers. Usually, the TempData object will be stored in a session object. Tempdata is also required to typecast and for null checking before reading data from it.
+
+
+
+
+Q 3. What is routing & different types of routing in MVC?
+Answer
+
+Routing is a mechanism to process the incoming url that is more descriptive and gives the desired response. In this case, the URL is not mapped to specific files or folders, as was the case of earlier days' websites.
+
+There are two types of routing (after the introduction of ASP.NET MVC 5).
+
+A) Convention-based routing: To define this type of routing, we call  MapRoute the method and set its unique name, url pattern and specify some default values.
+B) Attribute-based routing: To define this type of routing, we specify the Route attribute in the controller's action method
+
+
+Q 4. What is Polymorphism?
+Answer
+The word Polymorphism means having many forms. In simple words, we can define Polymorphism as the ability of a message to be displayed in more than one form. Polymorphism is a Greek word meaning "one name many forms". In other words, one object has many forms or has one name with multiple functionalities. "Poly" means many, and "morph" means forms. Polymorphism provides the ability for a class to have multiple implementations with the same name. It is one of the core principles of Object Oriented Programming after encapsulation and inheritance. In this article, you'll learn what Polymorphism is, how it works, and how to implement it in C#
+
+Q 5. What are the different types of Polymorphism?
+Answer
+There are two types of Polymorphism, as below.
+Static Polymorphism
+Dynamic Polymorphism
+
+Q 6. What is Boxing & Unboxing in C#?
+Answer 
+Boxing and unboxing in C# allow developers to convert .NET data types from value type to reference type and vice versa. Converting a value type to a reference type is called boxing in C#, and converting a reference type to a value type is called unboxing in C#. 
+
+Q 7. What is Partial class in C#?
+Answer 
+A partial class splits the definition of a class over two or more source (.cs) files. You can create a class definition in multiple physical files, but it will be compiled as one class when the classes are compiled.
+
+Q 8. What is a sealed class in C#? 
+Answer
+Sealed classes are used to restrict the inheritance feature of object-oriented programming. Once a class is defined as a sealed class, this class cannot be inherited. In C#, the sealed modifier declares a class as sealed. In Visual Basic .NET, the NotInheritable keyword serves the purpose of sealed. If a class is derived from a sealed class, the compiler throws an error.
+
+Q 9. What is an abstract class in C#? 
+Answer
+An abstract class is an incomplete class or special class that can't be instantiated. The purpose of an abstract class is to provide a blueprint for derived classes and set some rules that the derived classes must implement when they inherit an abstract class. We can use an abstract class as a base class; all derived classes must implement abstract definitions. An abstract method must be implemented in all non-abstract classes using the override keyword. After overriding the abstract method is in the non-Abstract class. We can derive this class in another class and override the same abstract method with it.
+
+Q10. What is Interface in C#? 
+Answer
+
+An interface looks like a class but has no implementation. The only thing it contains are declarations of events, indexers, methods, and/or properties. The reason interfaces only provide declarations is that they are inherited by structs and classes that must provide an implementation for each interface member declared.
+So, what are interfaces good for if they don't implement functionality? They're great for putting together plug-and-play-like architectures where components can be interchanged at will. Since all interchangeable components implement the same interface, they can be used without extra programming. The interface forces each component to expose specific public members that will be used in a certain way.
+
+
+----------------------------------------------------------------------------------------------------------------
+
+#2. What is the CLR, and why is it important?
+The Common Language Runtime (CLR) is the execution environment for .NET applications. It provides automatic memory management, security, and performance optimizations, making applications more reliable and efficient.
+
+How it works:
+
+Code written in C# or another .NET language compiles into Common Intermediate Language (CIL)
+
+The Just-In-Time (JIT) compiler translates CIL into machine code at runtime
+
+The Garbage Collector (GC) automatically manages memory by reclaiming unused objects
+
+The CLR enforces security policies and prevents unauthorized memory access
+
+
+ ** GC follows a three-step process
+Marking – The GC scans memory to identify which objects are still in use
+
+Sweeping – It removes objects that are no longer needed, freeing up memory
+
+Compacting – It reorganizes memory to prevent fragmentation and improve efficiency
+
+#8. What is the difference between an interface and an abstract class?
+In C#, both interfaces and abstract classes are used to define reusable code structures, but they serve different purposes. Understanding their differences is key to designing flexible, maintainable applications.
+
+*Interface
+Defines a contract that a class must follow
+Only contains method signatures (no implementations)
+A class can implement multiple interfaces
+
+*Abstract class
+Can have both abstract methods (without implementation) and concrete methods (with implementation)
+Allows related classes to share code while enforcing some common behavior
+A class can inherit only one abstract class
+
+Method                                           Interface                                                      Abstract Class
+
+Method implementation               No method implementations (except default methods in C# 8+)             Can have both abstract and concrete methods
+Multiple inheritance                A class can implement multiple interfaces                               A class can inherit only one abstract class
+Fields and properties               Cannot contain fields or constructors                                   Can have fields, properties, and constructors
+Use case                            Defines a contract that multiple classes can follow                     Provides a base class with shared behavior
+
+
+
+✅ What is Dependency Injection (DI)?
+Dependency Injection is a design pattern where an object receives its dependencies (services it needs to work) from outside, rather than creating them itself.
+Example: Instead of new EmailService() inside a class, we inject it through a constructor.
+
+✅ Why Use DI?
+
+Benefit           	        Description
+🔧 Maintainability	        Easy to update, replace, or upgrade dependencies
+🧪 Testability   	        Easy to inject mock services, making unit testing simple and clean
+🔄 Loose Coupling	        Reduces direct dependency between classes, improving flexibility
+🧩 Separation of Concerns	Each class focuses only on its task, not on creating or managing dependencies
+
+✅ How Many Ways to Use DI in .NET Core?
+*1. Constructor Injection (Most Common)
+Inject dependencies via constructor.
+Ex=>
+public class OrderService
+{
+    private readonly IEmailService _emailService;
+
+    public OrderService(IEmailService emailService)
+    {
+        _emailService = emailService;
+    }
+}
+*2. Method Injection
+Inject dependency directly into a method.
+Ex=> 
+public void SendNotification(IEmailService emailService)
+{
+    emailService.Send("Hello");
+}
+*3. Property Injection
+Set dependency using a public property (less preferred).
+Ex=>
+public IEmailService EmailService { get; set; }
+ 
+✅ How is DI Configured in .NET Core?
+In Program.cs or Startup.cs:
+services.AddScoped<IEmailService, EmailService>();
+services.AddScoped<OrderService>();
+.NET Core automatically injects dependencies into constructors.
+
+✅ What are the DI Lifetimes?
+
+Lifetime	Description	                                           When to Use
+Singleton	One instance for the entire app	For shared,                stateless services
+Scoped	        One instance per web request                               For services using scoped data
+Transient	New instance every time it's requested	For lightweight,   short-lived services
+
+
+
+✅ How DI Helps with Testing?
+With DI, you can inject mock objects in tests instead of real services.
+
+Example :
+var mockEmail = new Mock<IEmailService>();
+var service = new OrderService(mockEmail.Object);
+service.PlaceOrder();
+mockEmail.Verify(e => e.Send("Order placed!"), Times.Once);
+🔁 No real email sent, but behavior is tested ✅
+
+✅ When Should You Use DI?
+When your class depends on external services (e.g., logging, email, database).
+
+When you need to swap implementations easily.
+
+When you want to unit test without real services.
+
+When you're building modular and scalable applications.
+
+✅ When Should You Avoid or Be Cautious?
+For very simple apps, DI might be overkill.
+
+Too much abstraction can make code hard to trace/debug.
+
+Avoid using service locators or injecting too many services into one class (called "constructor bloat").
+
+✅ Real-World Analogy
+Imagine you're baking a cake:
+
+Without DI: You grow wheat, grind flour, make everything yourself.
+
+With DI: Someone gives you ready-made ingredients (your "dependencies"), so you just focus on baking.
+
+🔷 1. IEnumerable क्या है?
+✅ Definition:
+IEnumerable<T> एक interface है जो data को sequentially iterate करने के लिए इस्तेमाल होता है। ये memory में मौजूद collection (जैसे List, Array) पर काम करता है।
+
+📦 Namespace: System.Collections.Generic
+Ex=>
+List<string> names = new List<string> { "Amit", "Ravi", "Anjali", "Neha" };
+
+IEnumerable<string> result = names.Where(name => name.StartsWith("A"));
+
+foreach (var name in result)
+{
+    Console.WriteLine(name);
+}
+
+
+🔷 2. IQueryable क्या है?
+✅ Definition:
+IQueryable<T> एक interface है जो query को SQL में translate कर सकता है, जिससे data database से ही filtered होकर आता है।
+
+📦 Namespace: System.Linq
+
+**🆚 IEnumerable vs IQueryable
+Feature	                   IEnumerable	                            IQueryable
+Execution	     Client-side (In-Memory)	               Server-side (DB/Remote Execution)
+Best for	    In-memory collections (List, Array) 	Large data sets from DB
+Query Execution	    Deferred, after foreach or .ToList()	Deferred, sent as SQL query
+LINQ Type	         LINQ to Objects	                  LINQ to SQL/Entities
+Filtering	                            बाद में होता है	                           SQL में filter होता है
+Performance	         Slower on large data	                 Faster on large DB queries
+Modifiable Query	No SQL conversion possible       	SQL में dynamic query बन सकती है
+
+
+🔸 3. What is the difference between ref and out keywords?
+Answer:
+ref: Value पहले से initialized होनी चाहिए
+out: Value method के अंदर initialize होनी जरूरी है
+
+🔸 5. What is Middleware in ASP.NET Core?
+Answer: Middleware वो components होते हैं जो HTTP request-response pipeline में work करते हैं।
+
+🔸 7. What is Entity Framework (EF)?
+Answer: Entity Framework एक ORM (Object Relational Mapper) है जो C# class को database से map करता है।
+📌 Approaches:
+Code First ✅
+Database First
+Model First
+
+🔸 8. What is the difference between == and .Equals() in C#?
+
+Operator	    Use For
+==	         Reference compare (default)
+.Equals()	 Value compare (can be overridden)
+
+
+Keyword         	Compile Time Type	            Runtime Type	      Use Case
+var	                     Known	                     Fixed	             Type inferred by compiler 
+dynamic	                     Unknown	                     Resolved at runtime     Flexibility with COM, JSON
+object	                     Base Type	                     Needs casting	         Any type
+
+🔸 10. What is the difference between Task and Thread?
+Task: Managed by .NET Thread Pool, lightweight
+Thread: Lower-level, manual control
+✅ Use Task for most async operations.
+
+**************
+✅ 🧠 C# All Versions with Features (2002–2024)
+
+Version	Year	Major Features
+C# 1.0	2002	Basic OOP (Classes, Inheritance, Interfaces), Value/Reference Types
+C# 2.0	2005	Generics, Nullable types, Anonymous methods, yield
+C# 3.0	2007	LINQ, Lambda expressions, Extension methods, Auto-properties
+C# 4.0	2010	Dynamic types (dynamic), Named & Optional Parameters
+C# 5.0	2012	async/await, Caller info attributes
+C# 6.0	2015	String interpolation, Expression-bodied members, Null-conditional (?.)
+C# 7.0 – 7.3	2017-18	Tuples, Pattern Matching, out var, Local Functions, ref locals
+C# 8.0	2019	Nullable reference types, Async streams, Ranges (..), Switch expressions
+C# 9.0	2020	record types, Init-only setters, Top-level statements, Pattern enhancements
+C# 10.0	2021	Global using, File-scoped namespaces, Constant interpolated strings
+C# 11.0	2022	required keyword, Raw string literals ("""), Generic math support
+C# 12.0	2023	Primary constructors for non-records, Collection expressions, Alias any type
+C# 13.0 (Expected)	2024	Coming with .NET 9 (features not fully announced yet)
+**************
+
+
