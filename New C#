@@ -1,3 +1,15 @@
-1 . What is C#?
-C# is a simple, safe, and powerful programming language developed by Microsoft, used to create different types of applications like websites, desktop apps, mobile apps, and more. 
-It helps manage memory automatically, handles errors easily, supports multi-tasking (multithreading), and can run on different operating systems like Windows, Linux, and Mac. 
+1. What is C#?
+C# is an object-oriented, modern programming language that was created by Microsoft. It runs on the .NET Framework. C# is very close to C/C++ and Java programming languages. 
+The language is proposed to be a simple, modern, general-purpose, object-oriented programming language.  The language is used for creating software components.
+
+2. What is the Visual Studio?
+Visual Studio is one of the Microsoft IDE tools. Using this tool, we can develop, build, compile, publish and run applications with the .NET framework. This tool provides some features such as
+Editor,Compiler,Interpreters, and Many More.
+
+3. What is Common Language Runtime (CLR)?
+The Common Language Runtime (CLR) is a component of the Microsoft .NET Framework that manages the execution of .NET applications. It is responsible for loading and executing the code written in various .NET programming languages, 
+including C#, VB.NET, F#, and others.
+When a C# program is compiled, the resulting executable code is in an intermediate language called Common Intermediate Language (CIL) or Microsoft Intermediate Language (MSIL). This code is not machine-specific,
+and it can run on any platform that has the CLR installed. When the CIL code is executed, the CLR compiles it into machine code that can be executed by the processor.
+
+
