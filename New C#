@@ -523,6 +523,33 @@ or
 | Faster context switching        | Slower context switching         |
 | Example: Multithreading in C#   | Example: Running MS Word process |
 
+## 15. Struct vs Class
+
+| Struct                            | Class                    |
+| --------------------------------- | ------------------------ |
+| Value Type                        | Reference Type           |
+| Stored in Stack                   | Stored in Heap           |
+| Cannot have a default constructor | Can have constructors    |
+| Does not support inheritance      | Supports inheritance     |
+| Used for small data structures    | Used for complex objects |
+
+## 16. Virtual vs Abstract Method
+
+| Virtual Method                             | Abstract Method                            |
+| ------------------------------------------ | ------------------------------------------ |
+| Can have base implementation               | Cannot have implementation (abstract only) |
+| Can be overridden optionally               | Must be overridden in derived class        |
+| Declared with 'virtual' keyword            | Declared with 'abstract' keyword           |
+| Used when default behavior can be extended | Used when no default behavior exists       |
+| Example: virtual void Display() {}         | Example: abstract void Display();          |
+
+## 17. Public vs Private vs Protected vs Internal
+
+| Public                  | Private                      | Protected                                   | Internal                            |
+| ----------------------- | ---------------------------- | ------------------------------------------- | ----------------------------------- |
+| Accessible everywhere   | Accessible only within class | Accessible within class and derived classes | Accessible within the same assembly |
+| Least restrictive       | Most restrictive             | Medium restrictive                          | Assembly level access               |
+| Example: public int id; | private int id;              | protected int id;                           | internal int id;                    |
 
 
 
