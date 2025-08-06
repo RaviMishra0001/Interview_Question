@@ -12,4 +12,67 @@ including C#, VB.NET, F#, and others.
 When a C# program is compiled, the resulting executable code is in an intermediate language called Common Intermediate Language (CIL) or Microsoft Intermediate Language (MSIL). This code is not machine-specific,
 and it can run on any platform that has the CLR installed. When the CIL code is executed, the CLR compiles it into machine code that can be executed by the processor.
 
+4. How many Data types in C# and Vs?
+C# Data Types are divided into 3 Categories:
+-----------------------------------------------------------------------------------
+1. Value Data Types
+What is it?
+It stores the actual value directly.
+Memory Location: Stored in Stack.
+Copy Behavior: When you assign one variable to another, it makes a new copy.
+Examples:
+int, float, double, char, bool, struct, enum
+Example Code:
+int a = 10;
+int b = a;  // b gets a new copy of a's value
+Key Point:
+Both variables are independent copies.
+-------------------------------------------------------------------------
+2. Reference Data Types
+What is it?
+It stores the reference (address) of the actual data.
+Memory Location: Data is stored in Heap.
+Copy Behavior: When you assign, only the reference (address) is copied, not the actual data.
+Examples:
+string, array, class, interface, delegate, object
+Example Code:
+class Person { public string Name; }
+Person p1 = new Person();
+p1.Name = "Ravi";
+Person p2 = p1;  // p2 and p1 point to same object
+Key Point:
+Both variables point to the same data.
+-----------------------------------------------------------------------
+3. Pointer Data Type
+What is it?
+It holds the memory address directly.
+Usage: Used only in unsafe code.
+Examples:
+int*, char*, etc.
+Example Code:
+unsafe
+{
+    int a = 10;
+    int* p = &a;  // p holds the address of a
+}
+Key Point:
+Rarely used in C#, and allowed only in unsafe block.
+--------------VS-------------------------------------------------------------------------------------------------------------------------
+Value Type	                                 Reference  Type	                                   Pointer Type
+Stores actual value	                  Stores address (reference) of the data                     	Directly holds memory address
+Stored in Stack	                        Data stored in Heap	                         Works with memory address directly
+Assignment makes new copy of data     	Assignment copies only the address	         Used inside unsafe block only
+----------------------------------------------------------------------------------------------------------------------------------------
+
+---------------Types of Operators-------------------------
+C# has some set of operators that can be classified into various categories based on their functionality. Categorized into the following types:
+Arithmetic Operators => Addition ( + ),Subtraction ( - ),Multiplication ( * ),Division ( / ),Modulus ( % )
+Relational Operators => Equal to ( == ),Not equal to ( != ),Less than ( < ),Less than or equal to ( <= ),greater than ( > ),Greater than or equal to ( >= )
+Logical Operators => Logical AND (&&) ,Logical OR ( || ),Logical NOT ( ! )
+Assignment Operators => += (Add and assign.),-= (Subtract and assign.),*= (Multiply and assign.),/= (Divide and assign.) Etc.
+Increment and Decrement Operators => ++ ,-- ;
+Bitwise Operators => (x | y),(x & y) etc.
+Ternary Operator => condition ? if true : if false 
+Null Coalescing Operator => string name = null;   string result = name ? ? "Default Name";
+Conditional Logical Operators => a || b ,a && b ;
 
