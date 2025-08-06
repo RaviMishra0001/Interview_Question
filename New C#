@@ -105,6 +105,7 @@ Example:
 class Person {
     public Person() { }
 }
+
 2. Parameterized Constructor
 A constructor that takes parameters to initialize objects with custom values.
 Used to assign values during object creation.
@@ -112,6 +113,7 @@ Example:
 class Person {
     public Person(string name) { }
 }
+
 3. Copy Constructor
 A constructor that creates a new object by copying another object’s values.
 Not provided by default, must be written manually in C#.
@@ -122,6 +124,7 @@ class Person {
         Name = p.Name;
     }
 }
+
 4. Static Constructor
 A constructor that initializes static members of the class.
 Executes only once when class is accessed for the first time.
@@ -140,7 +143,388 @@ Example:
 class Person {
     private Person() { }
 }
---------------------------------------------------------------------------------------------------------
+
+* Static → For static members, runs once , Private → Restricts object creation
+
+What are Destructors in C#?
+Destructors which are also called Finalizers in C# are used to perform any necessary final clean-up when a class instance is being collected by the garbage collector.
+The Destructor is also a special type of method present in a class, just like a constructor, having the same name as the class name but prefixed with ~ tilde.
+The Constructor in C# is Explicitly called when the object of the class is created.On the other hand, the Destructor in C# is Implicitly Called when the object of the class is destroyed.
+The Constructor and destructor methods will exactly have the same name as the class to which they belong. So, to differentiate between these two, a tilde (~) symbol is used just before the destructor method.
+The syntax is shown below.
+class DestructorDemo
+    {
+        public DestructorDemo()
+        {
+            Console.WriteLine("Constructor Object Created");
+        }
+        ~DestructorDemo()
+        {
+            string type = GetType().Name;
+            Console.WriteLine($"Object {type} is Destroyed");
+        }
+    }
+---------------------------------------Garbage Collection Topic -----------------------------------------------------------------
+1. What is Garbage Collection in C#?
+Answer:
+Garbage Collection (GC) is an automatic memory management process in C# that frees unused objects from memory (Heap) to avoid memory leaks and improve application performance.
+
+2. Why is Garbage Collection needed?
+Answer:
+To prevent memory leaks by automatically removing unused objects that are no longer reachable in code, so developers don't need to free memory manually.
+
+3. Which part of memory does Garbage Collection manage?
+Answer:
+Heap Memory (where Reference Types are stored).
+
+4. When does Garbage Collection happen?
+Answer:
+GC runs automatically when:
+System is low on memory.
+Heap usage crosses a threshold limit.
+Or explicitly by calling GC.Collect() (not recommended for regular use).
+
+5. Can we manually force Garbage Collection?
+Answer:
+Yes, using GC.Collect(), but it’s not recommended because it affects performance.
+
+6. What are the generations in Garbage Collection?
+Answer:
+Generation 0 → Newly created short-lived objects.
+Generation 1 → Medium-lived objects.
+Generation 2 → Long-lived objects.
+GC collects Generation 0 first, then moves to higher generations if needed.
+
+7. What is Finalize() in C#?
+Answer:
+Finalize() is a destructor method called by the Garbage Collector before reclaiming an object’s memory to clean up unmanaged resources.
+
+8. What is Dispose() method?
+Answer:
+Dispose() is part of the IDisposable interface used to release unmanaged resources explicitly, called by developers manually.
+
+9. Difference between Dispose() and Finalize()?
+Dispose()	                                     Finalize()
+Called manually by developer            	 Called automatically by Garbage Collector
+Defined in IDisposable interface	         Defined in destructor (~ClassName) method
+Used for deterministic cleanup	             Used for non-deterministic cleanup
+
+10. Manage Vs Unmanaged  code 
+Managed Code                    	                    Unmanaged Code
+Runs under .NET CLR control	                      Runs directly on OS without CLR
+Automatic Garbage Collection	                  Manual memory management required
+Safer (Type-Safe, Exception-Safe, Secure)         Less Safe (Developer needs to manage safety)
+Examples: C#, VB.NET	                          Examples: C, C++, Win32 API, COM Components
+
+-----------------------------------------------------------Four Pilars-------------------------------------------------------------------------------------------------
+
+Q1. What are the Four Pillars of Object-Oriented Programming (OOP) in C#?
+Answer:
+The 4 Pillars of OOP are:
+Encapsulation
+Abstraction
+Inheritance
+Polymorphism
+
+Q2. What is Encapsulation?
+Answer:
+Encapsulation means binding data and methods together into a single unit (class) and hiding internal details from outside.
+Example:
+Using private variables with public properties (get/set) to control access.
+Simple Line:
+"Encapsulation = Data Hiding + Security"
+
+class Person {
+    private string name;  // Data Hiding (Encapsulation)
+    public void SetName(string n) {
+        name = n;
+    }
+    public string GetName() {
+        return name;
+    }
+}
+
+
+Q3. What is Abstraction?
+Answer:
+Abstraction means hiding complex implementation details and showing only essential information.
+Achieved using Abstract Classes and Interfaces.
+Example:
+You use a car’s steering wheel without knowing how the engine works.
+Simple Line:
+"Abstraction = Show What is Necessary, Hide Complexity"
+
+abstract class Animal {
+    public abstract void Sound();  // Abstract Method
+}
+class Dog : Animal {
+    public override void Sound() {
+        Console.WriteLine("Dog Barks");
+    }
+}
+
+Q4. What is Inheritance?
+Answer:
+Inheritance means one class (Child) inherits properties and methods of another class (Parent).
+Promotes code reusability.
+Example:
+Class Car inherits from class Vehicle.
+Simple Line:
+"Inheritance = Reusing Code from Parent Class"
+
+class Vehicle {
+    public void Run() {
+        Console.WriteLine("Vehicle is running");
+    }
+}
+class Car : Vehicle {  // Inheriting Vehicle Class
+}
+
+
+
+Q5. What is Polymorphism?
+Answer:
+Polymorphism means one name, many forms.
+Allows method overriding (runtime) and method overloading (compile-time).
+Example:
+Same method name Drive() behaves differently in Car and Bike classes.
+Simple Line:
+"Polymorphism = One Interface, Many Implementations"
+
+Example of Method Overloading (Compile-time Polymorphism):
+class MathOperations {
+    public int Add(int a, int b) {
+        return a + b;
+    }
+    public double Add(double a, double b) {
+        return a + b;
+    }
+}
+
+Example of Method Overriding (Run-time Polymorphism):
+class Animal {
+    public virtual void Speak() {
+        Console.WriteLine("Animal speaks");
+    }
+}
+class Dog : Animal {
+    public override void Speak() {
+        Console.WriteLine("Dog barks");
+    }
+}
+
+
+Q6. Difference between Abstraction and Encapsulation?
+Encapsulation	                                          Abstraction
+Hides data using access modifiers	                 Hides implementation details
+Focus is on how to protect data	                     Focus is on what to show and hide logic
+Example: private variables with public get/set	     Example: Abstract class, Interface
+
+***
+Encapsulation → Data Hiding (Secure the Data)
+Abstraction → Hiding Complexity (Show Only What’s Needed)
+Inheritance → Reusing Code (Parent → Child)
+Polymorphism → One Interface, Many Behaviors (Overloading/Overriding)
+
+----------------------------------------------------------------------------------------------------------------------
+
+Q1. What is Call by Value in C#?
+Answer:
+In Call by Value, a copy of the actual value is passed to the method.
+Changes made inside the method do NOT affect the original variable.
+Default behavior in C#.
+Example Code:
+void UpdateValue(int x) {
+    x = x + 10;
+}
+int num = 5;
+UpdateValue(num);
+Console.WriteLine(num);  // Output: 5 (original value remains unchanged)
+
+Q2. What is Call by Reference in C#?
+Answer:
+In Call by Reference, the reference (address) of the variable is passed to the method.
+Changes made inside the method affect the original variable.
+Use ref or out keyword.
+Example Code (Using ref):
+void UpdateValue(ref int x) {
+    x = x + 10;
+}
+int num = 5;
+UpdateValue(ref num);
+Console.WriteLine(num);  // Output: 15 (original value changed)
+
+
+Q3. What is the difference between ref and out keyword in C#?
+
+
+
+
+---------------------------------------------------All Vs ------------------------------------------------------
+## 1. Value Type vs Reference Type
+
+| Value Type                              | Reference Type                       |
+| --------------------------------------- | ------------------------------------ |
+| Stores actual value                     | Stores address (reference) of object |
+| Stored in Stack memory                  | Stored in Heap memory                |
+| Copying creates a new independent copy  | Copying copies the reference         |
+| Changes do NOT affect original variable | Changes affect original object       |
+| Examples: int, float, struct            | Examples: class, string, array       |
+
+## 2. ref vs out Keyword
+
+| ref                                         | out                                    |
+| ------------------------------------------- | -------------------------------------- |
+| Variable must be initialized before passing | Variable doesn't need initialization   |
+| Used for input and output                   | Used for output only                   |
+| Method may or may not modify value          | Method must assign value before return |
+| Retains old value when passed               | Old value is ignored                   |
+| Both pass by reference (address)            | Both pass by reference (address)       |
+
+or 
+
+| **ref**                                                                                           | **out**                                                                           |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| **1. Variable must be initialized before passing to method.**                                     | **Variable does NOT need to be initialized before passing.**                      |
+| **2. Can be used to pass data both **into** and **out of** a method (input & output).**           | **Can only be used to get output from method (output only).**                     |
+| **3. Called method may or may not assign a new value to variable.**                               | **Called method MUST assign a value to variable before returning.**               |
+| **4. Useful when we want to modify the passed variable's value and also use its existing value.** | **Useful when we want to return multiple outputs from a method.**                 |
+| **5. Method signature must explicitly declare the parameter with `ref` keyword.**                 | **Method signature must explicitly declare the parameter with `out` keyword.**    |
+| **6. Value of the variable is passed by reference (address).**                                    | **Value of the variable is passed by reference (address).** (Same as ref here)    |
+| **7. Ref can be used when variable already holds a value (carry existing value into method).**    | **Out forces method to provide a fresh value (variable’s old value is ignored).** |
+
+
+## 3. Abstract Class vs Interface
+
+| Abstract Class                       | Interface                                     |
+| ------------------------------------ | --------------------------------------------- |
+| Can have method implementation       | Cannot have implementation (till C# 7.0)      |
+| Supports constructors                | No constructors allowed                       |
+| Supports access modifiers            | Members are public by default                 |
+| Can have fields, properties, methods | Cannot have fields (only properties, methods) |
+| Single Inheritance                   | Multiple Inheritance allowed                  |
+
+
+## 4. Method Overloading vs Method Overriding
+
+| Method Overloading                     | Method Overriding                                     |
+| -------------------------------------- | ----------------------------------------------------- |
+| Compile-time polymorphism              | Runtime polymorphism                                  |
+| Same method name, different parameters | Same method signature in parent-child classes         |
+| Can happen in same class               | Requires inheritance                                  |
+| No virtual/override keywords needed    | Needs virtual (parent) and override (child)           |
+| Example: Add(int), Add(double)         | Example: Parent's Print(), Child's overridden Print() |
+
+
+## 5. Stack vs Heap Memory
+
+| Stack                                 | Heap                                |
+| ------------------------------------- | ----------------------------------- |
+| Stores Value Types & method calls     | Stores Reference Types              |
+| Faster (LIFO structure)               | Slower (Managed by GC)              |
+| Memory auto-cleared after method ends | Memory cleared by Garbage Collector |
+| Limited size                          | Large size (depends on system)      |
+| Compile-time allocation               | Runtime dynamic allocation          |
+
+
+## 6. Managed Code vs Unmanaged Code
+
+| Managed Code                  | Unmanaged Code                      |
+| ----------------------------- | ----------------------------------- |
+| Runs under CLR control        | Runs directly on OS                 |
+| Automatic Garbage Collection  | Manual memory management            |
+| Safer (type safety, security) | Less safe, developer handles safety |
+| Example: C# code              | Example: C, C++, COM components     |
+| CLR manages exceptions        | Developer must handle exceptions    |
+
+
+## 7. Dispose() vs Finalize()
+
+| Dispose()                                             | Finalize()                                |
+| ----------------------------------------------------- | ----------------------------------------- |
+| Part of IDisposable Interface                         | Destructor (\~ClassName)                  |
+| Called manually by developer                          | Called by Garbage Collector automatically |
+| Used for deterministic cleanup                        | Non-deterministic cleanup                 |
+| Releases unmanaged resources                          | Releases unmanaged resources              |
+| Can suppress finalization using GC.SuppressFinalize() | Cannot call Finalize() explicitly         |
+
+
+## 8. Interface vs Abstract Class vs Concrete Class
+
+| Interface                    | Abstract Class        | Concrete Class                      |
+| ---------------------------- | --------------------- | ----------------------------------- |
+| Pure abstraction             | Partial abstraction   | Full implementation                 |
+| No method body (till C# 7.0) | Can have method body  | Fully defined methods               |
+| Multiple inheritance allowed | Single inheritance    | Can inherit from abstract/interface |
+| No constructors              | Can have constructors | Can have constructors               |
+| Example: IShape              | abstract class Shape  | class Circle : Shape                |
+
+
+## 9. Constant vs Readonly vs Static
+
+| Constant                       | Readonly                                | Static                         |
+| ------------------------------ | --------------------------------------- | ------------------------------ |
+| Value assigned at compile-time | Value assigned at runtime (constructor) | Belongs to class, not instance |
+| Implicitly static              | Not implicitly static                   | Must be declared static        |
+| Can't be changed               | Can be assigned in constructor          | Shared across all instances    |
+| Example: const int PI = 3;     | Example: readonly int id;               | Example: static int counter;   |
+
+
+## 10. Early Binding vs Late Binding
+
+| Early Binding               | Late Binding                      |
+| --------------------------- | --------------------------------- |
+| Compile-time polymorphism   | Runtime polymorphism              |
+| Method Overloading          | Method Overriding                 |
+| Better performance          | Slightly slower (runtime)         |
+| Checked during compile-time | Resolved during runtime           |
+| Example: Method Overloading | Example: Virtual/Override methods |
+
+## 11. Sealed Class vs Static Class
+
+| Sealed Class                        | Static Class                          |
+| ----------------------------------- | ------------------------------------- |
+| Cannot be inherited                 | Cannot be instantiated                |
+| Can have instance members           | All members must be static            |
+| Used to prevent further inheritance | Used to create utility/helper classes |
+| Can have constructors               | Cannot have instance constructors     |
+| Example: public sealed class A      | Example: public static class Helper   |
+
+
+## 12. Boxing vs Unboxing
+
+| Boxing                               | Unboxing                          |
+| ------------------------------------ | --------------------------------- |
+| Converting Value Type to Object Type | Extracting Value Type from Object |
+| Happens implicitly                   | Needs explicit casting            |
+| Stores data in Heap                  | Data is read back to Stack        |
+| Example: object obj = 10;            | Example: int x = (int)obj;        |
+| Performance overhead                 | Type casting risk                 |
+
+
+## 13. Error Handling vs Exception Handling
+
+| Error Handling               | Exception Handling                      |
+| ---------------------------- | --------------------------------------- |
+| Compile-time errors          | Runtime errors                          |
+| Syntax errors, type mismatch | Divide by zero, null reference          |
+| Caught by compiler           | Caught using try-catch block            |
+| Developer must fix           | Can be handled gracefully at runtime    |
+| Example: Missing semicolon   | Example: try { int x = a/b; } catch { } |
+
+
+## 14. Thread vs Process
+
+| Thread                          | Process                          |
+| ------------------------------- | -------------------------------- |
+| Smallest unit of execution      | Independent executing program    |
+| Threads share process resources | Processes are isolated           |
+| Lightweight                     | Heavyweight                      |
+| Faster context switching        | Slower context switching         |
+| Example: Multithreading in C#   | Example: Running MS Word process |
+
+
+
 
 
 
