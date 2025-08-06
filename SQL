@@ -1,1 +1,332 @@
-Sql Question With Answer
+--------------------------------------All Vs -----------------------------------------------------------
+1. Primary Key vs Unique Key
+
+| Primary Key                                        | Unique Key                                               |
+| -------------------------------------------------- | -------------------------------------------------------- |
+| Uniquely identifies each row                       | Ensures column values are unique                         |
+| Only one primary key allowed per table             | Multiple unique keys allowed per table                   |
+| Does **not allow** NULL values                     | Allows **one** NULL value in a column                    |
+| Creates a **clustered index** by default (usually) | Creates a **non-clustered index** by default             |
+| Used to enforce **entity integrity**               | Used to enforce **uniqueness** without entity constraint |
+| **Example:**                       |                             |
+CREATE TABLE Students (
+  ID INT PRIMARY KEY,
+  Email VARCHAR(100) UNIQUE
+);
+
+2. Clustered Index vs Non-Clustered Index
+
+| Clustered Index                                    | Non-Clustered Index                                    |
+| -------------------------------------------------- | ------------------------------------------------------ |
+| Sorts and stores the actual data rows physically   | Stores a separate structure with pointers to data rows |
+| Only **one clustered index** allowed per table     | Multiple non-clustered indexes allowed per table       |
+| Faster for **range queries** (e.g., BETWEEN, >, <) | Faster for **exact match** queries (e.g., = operator)  |
+| Changes the physical order of data on disk         | Does **not** change physical data order                |
+| Uses more storage as data is reordered             | Uses less storage; just indexes                        |
+-- Clustered index usually created with PRIMARY KEY
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,  -- Clustered Index
+  Name VARCHAR(100)
+);
+
+-- Creating non-clustered index
+CREATE NONCLUSTERED INDEX idx_Name ON Employees(Name);
+
+
+3. DELETE vs TRUNCATE vs DROP
+
+| DELETE                                       | TRUNCATE                                          | DROP                                        |
+| -------------------------------------------- | ------------------------------------------------- | ------------------------------------------- |
+| Deletes specific rows (can use WHERE clause) | Deletes **all** rows from the table quickly       | Deletes the entire table structure and data |
+| Logs deletion of **each row** individually   | Logs deallocation of data pages (less logging)    | Removes table metadata and data permanently |
+| Can be **rolled back** within a transaction  | Usually **cannot** be rolled back in some systems | Cannot be rolled back once executed         |
+| Triggers are fired on DELETE                 | Triggers **do not** fire                          | Triggers removed with table                 |
+| Slower for large data sets                   | Faster for large tables                           | Removes table schema and data               |
+
+DELETE FROM Employees WHERE Department = 'Sales';
+TRUNCATE TABLE Employees;
+DROP TABLE Employees;
+
+
+4. WHERE vs HAVING
+| WHERE                                              | HAVING                                       |
+| -------------------------------------------------- | -------------------------------------------- |
+| Filters individual rows **before** grouping        | Filters groups **after** aggregation         |
+| Cannot use aggregate functions like COUNT(), SUM() | Can use aggregate functions to filter groups |
+| Used with SELECT, UPDATE, DELETE queries           | Used mainly with GROUP BY in SELECT queries  |
+| Generally faster because it filters early          | Filters results after groups are formed      |
+| Applies to rows in tables directly                 | Applies to grouped records or aggregates     |
+
+-- Using WHERE to filter rows before grouping
+SELECT Department, COUNT(*) 
+FROM Employees 
+WHERE Salary > 50000 
+GROUP BY Department;
+
+-- Using HAVING to filter groups after aggregation
+SELECT Department, COUNT(*) 
+FROM Employees 
+GROUP BY Department 
+HAVING COUNT(*) > 5;
+
+
+
+5. INNER JOIN vs LEFT JOIN vs RIGHT JOIN vs FULL JOIN
+| INNER JOIN                                            | LEFT JOIN                                                       | RIGHT JOIN                                                      | FULL JOIN                                                      |
+| ----------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------- |
+| Returns only rows with matching values in both tables | Returns all rows from **left** table + matching rows from right | Returns all rows from **right** table + matching rows from left | Returns **all rows** from both tables, matching where possible |
+| Non-matching rows are excluded                        | Non-matching right table rows return NULL                       | Non-matching left table rows return NULL                        | Non-matching rows from both sides return NULL                  |
+| Usually used for **strict matching**                  | Used when you want all left side data regardless of matches     | Used when you want all right side data regardless of matches    | Used when you want complete data from both tables              |
+| Join condition specified using ON clause              | Same as INNER JOIN but includes unmatched left rows             | Same as INNER JOIN but includes unmatched right rows            | Combines LEFT JOIN and RIGHT JOIN results                      |
+| Can reduce result set size                            | Result set size >= INNER JOIN                                   | Result set size >= INNER JOIN                                   | Result set size >= LEFT JOIN and RIGHT JOIN combined           |
+
+SELECT * FROM A INNER JOIN B ON A.ID = B.ID;
+SELECT * FROM A LEFT JOIN B ON A.ID = B.ID;
+SELECT * FROM A RIGHT JOIN B ON A.ID = B.ID;
+SELECT * FROM A FULL JOIN B ON A.ID = B.ID;
+
+6. UNION vs UNION ALL
+| UNION                                                     | UNION ALL                                         |
+| --------------------------------------------------------- | ------------------------------------------------- |
+| Removes duplicate rows from the combined result set       | Includes all rows, including duplicates           |
+| Slower performance due to duplicate elimination           | Faster performance; no duplicate checking         |
+| Requires sorting or hashing internally to find duplicates | Simply appends result sets without sorting        |
+| Useful when you want distinct results only                | Useful when duplicates are acceptable or expected |
+| Uses more CPU and memory resources                        | Uses less CPU and memory resources                |
+
+SELECT City FROM Customers
+UNION
+SELECT City FROM Suppliers;
+
+SELECT City FROM Customers
+UNION ALL
+SELECT City FROM Suppliers;
+
+
+7. Subquery vs Join
+| Subquery                                                     | Join                                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------- |
+| A query nested inside another query                          | Combines rows from two or more tables                   |
+| Can return single value or table                             | Returns combined rows as a result set                   |
+| Sometimes less efficient (depends on query and optimizer)    | Generally more efficient, especially for large datasets |
+| Easier to write for simple conditions                        | Better for complex queries involving multiple tables    |
+| Can be correlated (depends on outer query) or non-correlated | No correlation; tables joined directly on keys          |
+
+-- Subquery
+SELECT Name FROM Employees WHERE DepartmentID = (SELECT ID FROM Departments WHERE Name = 'HR');
+
+-- Join
+SELECT Employees.Name, Departments.Name
+FROM Employees
+JOIN Departments ON Employees.DepartmentID = Departments.ID;
+
+
+8. CHAR vs VARCHAR
+| CHAR                                                           | VARCHAR                                                         |
+| -------------------------------------------------------------- | --------------------------------------------------------------- |
+| Fixed length data type                                         | Variable length data type                                       |
+| Pads extra spaces to fill the length                           | Stores only the entered characters (no padding)                 |
+| Uses fixed amount of storage regardless of data size           | Uses storage based on actual data size plus overhead            |
+| Faster for fixed-size data                                     | More flexible and space-efficient for varying length data       |
+| Suitable for data with consistent length (e.g., country codes) | Suitable for data with variable length (e.g., names, addresses) |
+
+-- CHAR(10) stores exactly 10 characters, pads spaces if less
+DECLARE @charExample CHAR(10) = 'Hello';
+
+-- VARCHAR(10) stores only characters entered (up to 10)
+DECLARE @varcharExample VARCHAR(10) = 'Hello';
+
+
+
+9. Stored Procedure vs Function
+| Stored Procedure                                                                                    | Function                                                          |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Can perform Data Manipulation (INSERT, UPDATE, DELETE) and Data Definition Language (CREATE, ALTER) | Generally used to compute and return a value; limited DML allowed |
+| Does **not have to** return a value                                                                 | **Must** return a value                                           |
+| Can call other procedures and functions                                                             | Can call only other functions                                     |
+| Supports transaction control (COMMIT, ROLLBACK)                                                     | Limited or no transaction control                                 |
+| Called using `EXEC` or `CALL` statement                                                             | Used within SQL expressions or SELECT statements                  |
+
+-- Stored Procedure
+CREATE PROCEDURE usp_GetEmployeeCount
+AS
+BEGIN
+  SELECT COUNT(*) FROM Employees;
+END;
+
+-- Function
+CREATE FUNCTION dbo.fn_GetEmployeeCount()
+RETURNS INT
+AS
+BEGIN
+  RETURN (SELECT COUNT(*) FROM Employees);
+END;
+
+
+
+10. View vs Table
+| View                                                                   | Table                                        |
+| ---------------------------------------------------------------------- | -------------------------------------------- |
+| Virtual table based on a SELECT query                                  | Physical storage of data                     |
+| Does **not** store data physically                                     | Stores data physically in database           |
+| Used for abstraction, security, and simplifying complex queries        | Used for storing actual data                 |
+| Data in a view is **dynamic**; changes in base tables reflect in views | Data is static until updated                 |
+| Can be **indexed** (indexed views) in some DBMS for performance        | Tables always have indexes for faster access |
+
+-- Create a view showing active employees
+CREATE VIEW vw_ActiveEmployees AS
+SELECT * FROM Employees WHERE Status = 'Active';
+-- Create a table storing employee data
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,
+  Name VARCHAR(100),
+  Status VARCHAR(10)
+);
+
+
+11. Temporary Table vs Table Variable
+| Temporary Table                                   | Table Variable                              |
+| ------------------------------------------------- | ------------------------------------------- |
+| Created and stored in **tempdb** database         | Stored in memory (more lightweight)         |
+| Supports indexes, constraints, and statistics     | Limited support for indexes and constraints |
+| Can be used across multiple batches or procedures | Scope limited to the batch or procedure     |
+| Can handle large amounts of data efficiently      | Best suited for small datasets              |
+| Syntax: `CREATE TABLE #TempTable`                 | Syntax: `DECLARE @TableVar TABLE`           |
+
+-- Temporary Table
+CREATE TABLE #TempEmployees (ID INT, Name VARCHAR(50));
+-- Table Variable
+DECLARE @TempEmployees TABLE (ID INT, Name VARCHAR(50));
+
+
+
+12. Cross Join vs Inner Join
+| Cross Join                                                              | Inner Join                                            |
+| ----------------------------------------------------------------------- | ----------------------------------------------------- |
+| Returns **Cartesian product** (all possible combinations of rows)       | Returns only rows with matching values in both tables |
+| No ON or JOIN condition is needed                                       | Requires ON condition to specify join criteria        |
+| Result set size = number of rows in Table A × number of rows in Table B | Result set size depends on matching rows              |
+| Used when all combinations are needed (rare cases)                      | Used for filtering related data between tables        |
+| Can produce very large result sets if tables are large                  | Produces smaller, filtered result sets                |
+
+-- Cross Join (Cartesian product)
+SELECT * FROM Employees CROSS JOIN Departments;
+-- Inner Join (matching rows only)
+SELECT * FROM Employees INNER JOIN Departments ON Employees.DeptID = Departments.ID;
+
+
+13. Primary Key vs Foreign Key
+| Primary Key                             | Foreign Key                                                 |
+| --------------------------------------- | ----------------------------------------------------------- |
+| Uniquely identifies each row in a table | Creates a link between two tables                           |
+| Does **not allow NULL** values          | Can allow NULL values (optional relationship)               |
+| Only one primary key allowed per table  | Multiple foreign keys allowed per table                     |
+| Enforces **entity integrity**           | Enforces **referential integrity** (validates relationship) |
+| Typically creates a clustered index     | Creates a non-clustered index (usually)                     |
+
+CREATE TABLE Departments (
+  DeptID INT PRIMARY KEY,
+  DeptName VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,
+  Name VARCHAR(100),
+  DeptID INT,
+  FOREIGN KEY (DeptID) REFERENCES Departments(DeptID)
+);
+
+
+14. DDL vs DML vs DCL vs TCL
+| DDL (Data Definition Language)                                | DML (Data Manipulation Language)                                | DCL (Data Control Language)                         | TCL (Transaction Control Language)                     |
+| ------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------ |
+| Defines and modifies database structure (CREATE, ALTER, DROP) | Manipulates data inside tables (SELECT, INSERT, UPDATE, DELETE) | Manages user permissions and access (GRANT, REVOKE) | Manages transaction flow (COMMIT, ROLLBACK, SAVEPOINT) |
+| Changes schema of database objects                            | Changes data stored in tables                                   | Controls security and authorization                 | Ensures data consistency with transactions             |
+| Affects metadata and structure                                | Affects actual data                                             | Used by DBAs for access control                     | Used to group operations into atomic units             |
+| Operations are auto-committed                                 | Can be rolled back within transactions                          | Permission commands, no data changes                | Control commit or rollback of transactions             |
+| Examples: CREATE TABLE, DROP INDEX                            | Examples: INSERT INTO, UPDATE, DELETE                           | Examples: GRANT SELECT, REVOKE INSERT               | Examples: BEGIN TRANSACTION, COMMIT, ROLLBACK          |
+
+
+15. Rank() vs Dense_Rank() vs Row_Number()
+| Rank()                                               | Dense\_Rank()                                              | Row\_Number()                                              |
+| ---------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
+| Assigns ranks with gaps for ties (e.g., 1,2,2,4)     | Assigns ranks without gaps (e.g., 1,2,2,3)                 | Assigns unique sequential numbers (e.g., 1,2,3,4)          |
+| Rows with the same value get same rank               | Rows with the same value get same rank                     | Each row gets a unique number regardless of ties           |
+| Next rank skips numbers after ties                   | Next rank continues without skipping                       | Numbers always increment by 1                              |
+| Useful for ranking with ties where gaps matter       | Useful when ranking without gaps is needed                 | Useful for unique row numbering                            |
+| Syntax example: `RANK() OVER (ORDER BY Salary DESC)` | Syntax example: `DENSE_RANK() OVER (ORDER BY Salary DESC)` | Syntax example: `ROW_NUMBER() OVER (ORDER BY Salary DESC)` |
+
+SELECT EmployeeID, Salary,
+       RANK() OVER (ORDER BY Salary DESC) AS Rank,
+       DENSE_RANK() OVER (ORDER BY Salary DESC) AS DenseRank,
+       ROW_NUMBER() OVER (ORDER BY Salary DESC) AS RowNum
+FROM Employees;
+
+
+
+16. OLTP vs OLAP
+| OLTP (Online Transaction Processing)                                        | OLAP (Online Analytical Processing)                           |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Designed for **day-to-day transaction** processing (INSERT, UPDATE, DELETE) | Designed for complex **analytical queries** and data analysis |
+| Handles large numbers of short, fast transactions                           | Handles fewer, complex, long-running queries                  |
+| Data is highly normalized to reduce redundancy                              | Data is often denormalized for faster querying                |
+| Focuses on real-time data integrity and concurrency                         | Focuses on historical data and trend analysis                 |
+| Examples: Banking systems, order processing                                 | Examples: Data warehouses, business intelligence systems      |
+
+
+
+17. Normalization vs Denormalization
+| Normalization                                                      | Denormalization                                             |
+| ------------------------------------------------------------------ | ----------------------------------------------------------- |
+| Organizes data to **reduce redundancy** and improve data integrity | Introduces redundancy to **improve read/query performance** |
+| Data is divided into multiple related tables                       | Data combined into fewer tables                             |
+| Involves normal forms (1NF, 2NF, 3NF, etc.)                        | Opposite of normalization, sometimes breaks normal forms    |
+| Requires more **joins** during querying                            | Reduces number of joins for faster queries                  |
+| Helps maintain data consistency and avoid anomalies                | Can cause data anomalies if not carefully managed           |
+
+
+18. CTE vs Subquery
+| CTE (Common Table Expression)                          | Subquery                                      |
+| ------------------------------------------------------ | --------------------------------------------- |
+| Temporary named result set defined using `WITH` clause | Query nested inside another query             |
+| Improves query readability and organization            | Can be harder to read when deeply nested      |
+| Can be recursive (calls itself)                        | Cannot be recursive                           |
+| Can be referenced multiple times in the main query     | Typically used once inline                    |
+| Executes once and can be reused in query               | May execute multiple times if used repeatedly |
+
+-- CTE example
+WITH EmployeeCTE AS (
+  SELECT EmployeeID, ManagerID FROM Employees
+)
+SELECT * FROM EmployeeCTE;
+
+-- Subquery example
+SELECT EmployeeID FROM Employees WHERE ManagerID = (SELECT ManagerID FROM Managers WHERE Name = 'John');
+
+
+
+19. Index Scan vs Index Seek
+| Index Scan                                                 | Index Seek                                          |
+| ---------------------------------------------------------- | --------------------------------------------------- |
+| Reads **all rows** in the index sequentially               | Directly navigates to specific rows using the index |
+| Generally slower, especially for large tables              | Faster, efficient for selective queries             |
+| Used when no suitable index exists or large data retrieval | Used when query predicates can leverage index keys  |
+| High I/O and CPU usage                                     | Low I/O and CPU usage                               |
+| Can cause table scan if index is not selective             | Precise access reduces the data scanned             |
+
+
+
+20. Schema vs Database
+| Schema                                                            | Database                                               |
+| ----------------------------------------------------------------- | ------------------------------------------------------ |
+| Logical container to group database objects (tables, views, etc.) | Physical container that holds data, files, and objects |
+| Helps organize and secure objects within a database               | Manages overall data storage, users, and security      |
+| Multiple schemas can exist inside one database                    | A database is a standalone entity                      |
+| Provides namespace to avoid naming conflicts                      | Can contain multiple schemas                           |
+| Example: `Sales` schema groups sales tables                       | Example: `SalesDB` stores all related data and schemas |
+
+
+
+
+
+
