@@ -12,10 +12,11 @@ including C#, VB.NET, F#, and others.
 When a C# program is compiled, the resulting executable code is in an intermediate language called Common Intermediate Language (CIL) or Microsoft Intermediate Language (MSIL). This code is not machine-specific,
 and it can run on any platform that has the CLR installed. When the CIL code is executed, the CLR compiles it into machine code that can be executed by the processor.
 
+------------------------------- Data Types -------------------------------------------------------------------------------------------------------------------------------------------
 4. How many Data types in C# and Vs?
 C# Data Types are divided into 3 Categories:
------------------------------------------------------------------------------------
-1. Value Data Types
+
+**1. Value Data Types
 What is it?
 It stores the actual value directly.
 Memory Location: Stored in Stack.
@@ -27,8 +28,8 @@ int a = 10;
 int b = a;  // b gets a new copy of a's value
 Key Point:
 Both variables are independent copies.
--------------------------------------------------------------------------
-2. Reference Data Types
+
+**2. Reference Data Types
 What is it?
 It stores the reference (address) of the actual data.
 Memory Location: Data is stored in Heap.
@@ -42,8 +43,8 @@ p1.Name = "Ravi";
 Person p2 = p1;  // p2 and p1 point to same object
 Key Point:
 Both variables point to the same data.
------------------------------------------------------------------------
-3. Pointer Data Type
+
+**3. Pointer Data Type
 What is it?
 It holds the memory address directly.
 Usage: Used only in unsafe code.
@@ -57,7 +58,7 @@ unsafe
 }
 Key Point:
 Rarely used in C#, and allowed only in unsafe block.
---------------VS-------------------------------------------------------------------------------------------------------------------------
+-------------- VS In Data types --------------
 Value Type	                                 Reference  Type	                                   Pointer Type
 Stores actual value	                  Stores address (reference) of the data                     	Directly holds memory address
 Stored in Stack	                        Data stored in Heap	                         Works with memory address directly
@@ -75,4 +76,71 @@ Bitwise Operators => (x | y),(x & y) etc.
 Ternary Operator => condition ? if true : if false 
 Null Coalescing Operator => string name = null;   string result = name ? ? "Default Name";
 Conditional Logical Operators => a || b ,a && b ;
+
+----------------------------------Constructor Topic-------------------------------------------------------------
+
+What is a Constructor in C#?
+It is a special method present inside a class responsible for initializing the variables of that class. We will come to this point later part of this article.
+The name of the constructor method is exactly the same name as the class in which it was present. You cannot change the name. If your class name is Employee,
+then the name of the constructor method is going to be Employee, and if your class name is Student, then the constrictor name is also going to be Student.
+The constructor method does not return any value. That means it is a non-value returning method. Generally, methods are of two types 
+i.e. value returning and non-value returning and constructors are purely non-value returning. That is, they never return any value.
+
+System-Defined Default Constructor
+User-Defined Default Constructor
+Types of Constructors in C#
+There are five types of constructors available in C#, they are as follows
+Default or Parameter Less Constructor
+Parameterized Constructor
+Copy Constructor
+Static Constructor
+Private Constructor
+
+
+1. Default (Parameter-less) Constructor
+A constructor with no parameters.
+It initializes objects with default values.
+Created automatically if no constructor is defined.
+Example:
+class Person {
+    public Person() { }
+}
+2. Parameterized Constructor
+A constructor that takes parameters to initialize objects with custom values.
+Used to assign values during object creation.
+Example:
+class Person {
+    public Person(string name) { }
+}
+3. Copy Constructor
+A constructor that creates a new object by copying another object’s values.
+Not provided by default, must be written manually in C#.
+Example:
+class Person {
+    public string Name;
+    public Person(Person p) {
+        Name = p.Name;
+    }
+}
+4. Static Constructor
+A constructor that initializes static members of the class.
+Executes only once when class is accessed for the first time.
+Does not take parameters.
+Example:
+class Person {
+    static Person() {
+        // static initialization
+    }
+}
+5. Private Constructor
+A constructor with private access modifier.
+Used in Singleton Design Pattern or static classes.
+Prevents object creation from outside the class.
+Example:
+class Person {
+    private Person() { }
+}
+--------------------------------------------------------------------------------------------------------
+
+
 
