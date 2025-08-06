@@ -1,0 +1,132 @@
+--------------------------------Vs--------------------------------------------------------------------
+
+1. ASP.NET WebForms vs ASP.NET MVC
+| WebForms                                         | MVC                                              |
+| ------------------------------------------------ | ------------------------------------------------ |
+| Follows **event-driven** programming             | Follows **Model-View-Controller (MVC)** pattern  |
+| Supports **ViewState** to retain data            | No ViewState, uses clean URL routing             |
+| Uses server controls (GridView, etc.)            | Uses HTML helpers & Razor syntax                 |
+| Code tightly coupled with UI (code-behind files) | Separation of concerns (Model, View, Controller) |
+| Suitable for small to medium applications        | Suitable for large, scalable applications        |
+
+2. ASP.NET MVC vs ASP.NET Core
+| MVC                                   | ASP.NET Core                           |
+| ------------------------------------- | -------------------------------------- |
+| Runs only on **Windows**              | Cross-platform (Windows, Linux, macOS) |
+| Built on .NET Framework               | Built on .NET Core (.NET 5/6/7)        |
+| Heavyweight, tightly coupled          | Lightweight, modular & fast            |
+| No built-in Dependency Injection (DI) | Built-in Dependency Injection (DI)     |
+| Cannot self-host, needs IIS           | Can self-host via Kestrel or IIS       |
+
+3. Server Side vs Client Side Scripting
+| Server Side                         | Client Side                                |
+| ----------------------------------- | ------------------------------------------ |
+| Executes on **server** (C#, VB.NET) | Executes on **browser** (JavaScript, HTML) |
+| Secure, code is hidden              | Visible to users, less secure              |
+| Slower due to server round-trips    | Faster, no need to contact server          |
+| Suitable for data processing        | Suitable for UI interactions               |
+| Examples: ASP.NET, PHP              | Examples: JavaScript, CSS                  |
+
+4. ViewBag vs ViewData vs TempData in ASP.NET MVC
+| ViewBag                                   | ViewData                            | TempData                                   |
+| ----------------------------------------- | ----------------------------------- | ------------------------------------------ |
+| Dynamic property (Runtime)                | Dictionary object (Key-Value)       | Dictionary object (Key-Value)              |
+| Data available for current request        | Data available for current request  | Data persists for next request (Redirects) |
+| Less type safety                          | Less type safety                    | Less type safety                           |
+| Syntax: ViewBag.Name = "Ravi";            | Syntax: ViewData\["Name"] = "Ravi"; | Syntax: TempData\["Name"] = "Ravi";        |
+| Used to pass data from Controller to View | Same as ViewBag                     | Used for Redirect scenarios                |
+
+5. Session vs ViewState vs Cache
+| Session                                    | ViewState                                   | Cache                                    |
+| ------------------------------------------ | ------------------------------------------- | ---------------------------------------- |
+| Stores data per user session (Server-side) | Stores data per page (Client-side, in page) | Stores data globally (Application level) |
+| Suitable for sensitive data                | Suitable for small, non-sensitive data      | Suitable for data reuse (static data)    |
+| More secure, requires server memory        | Less secure, stored in page                 | High performance for read-heavy data     |
+| Expires on timeout or browser close        | Expires on page refresh                     | Controlled manually or by policy         |
+| Example: Session\["User"] = "Ravi";        | Example: ViewState\["User"] = "Ravi";       | Example: Cache\["Data"] = data;          |
+
+6. Authentication vs Authorization
+| Authentication                                  | Authorization                           |
+| ----------------------------------------------- | --------------------------------------- |
+| Verifies **who the user is**                    | Determines **what user can access**     |
+| Happens before Authorization                    | Happens after successful Authentication |
+| Example: Username/Password login                | Example: Checking Admin role access     |
+| Managed using Identity providers (OAuth, Forms) | Managed using Roles, Policies           |
+| Focused on identity validation                  | Focused on access control               |
+
+7. GET vs POST Methods (HTTP)
+| GET                             | POST                          |
+| ------------------------------- | ----------------------------- |
+| Data sent via URL (QueryString) | Data sent in request body     |
+| Less secure, data visible       | More secure, data hidden      |
+| Suitable for data retrieval     | Suitable for form submissions |
+| Limited data size (URL limit)   | No data size limit            |
+| Can be cached/bookmarked        | Cannot be cached/bookmarked   |
+
+
+8. ASP.NET Core vs ASP.NET Web API
+| ASP.NET Core                               | ASP.NET Web API                               |
+| ------------------------------------------ | --------------------------------------------- |
+| Unified platform for Web, API, and Mobile  | Specialized for building RESTful APIs         |
+| Cross-platform (Windows, Linux, Mac)       | Runs only on Windows                          |
+| Lightweight, modular pipeline (Middleware) | Heavyweight, based on .NET Framework pipeline |
+| Supports Dependency Injection by default   | DI needs external configuration               |
+| Can host API & UI together                 | Mostly API only (Separate from MVC Views)     |
+
+10. Synchronous vs Asynchronous Calls in ASP.NET
+| Synchronous                                 | Asynchronous                               |
+| ------------------------------------------- | ------------------------------------------ |
+| Executes tasks one after another (blocking) | Executes without blocking the main thread  |
+| Slower when dealing with I/O operations     | Better performance with I/O-bound tasks    |
+| Simpler code, easier to understand          | Complex code flow (async/await needed)     |
+| UI becomes unresponsive in heavy tasks      | Keeps UI responsive during long operations |
+| Example: return View();                     | Example: return await ViewAsync();         |
+
+11. HTML Helpers vs Tag Helpers in ASP.NET Core
+| HTML Helpers                                    | Tag Helpers                                       |
+| ----------------------------------------------- | ------------------------------------------------- |
+| Used in ASP.NET MVC for rendering HTML controls | New in ASP.NET Core for better HTML syntax        |
+| Written in C# Razor syntax                      | Looks like HTML attributes (easier for designers) |
+| Example: @Html.TextBoxFor()                     | Example: <input asp-for="Name" />                 |
+| Harder for front-end teams to collaborate       | Clean separation of HTML and logic                |
+| Cannot modify DOM attributes easily             | Can target and modify any HTML element            |
+
+12. Cookies vs Session
+| Cookies                                    | Session                               |
+| ------------------------------------------ | ------------------------------------- |
+| Stored on client (browser)                 | Stored on server                      |
+| Less secure (can be modified by user)      | More secure (hidden from user)        |
+| Used for lightweight data like preferences | Used for user-specific sensitive data |
+| Expires after time or browser close        | Expires on timeout or logout          |
+| Size limit (\~4KB)                         | Can store larger data                 |
+
+13. Web.Config vs AppSettings.json (ASP.NET Core)
+| Web.Config                                 | AppSettings.json                       |
+| ------------------------------------------ | -------------------------------------- |
+| Used in ASP.NET Framework apps             | Used in ASP.NET Core apps              |
+| XML-based configuration                    | JSON-based configuration               |
+| Not reloadable at runtime                  | Can be reloaded without restarting app |
+| Stores connection strings, custom settings | Same usage but with modern syntax      |
+| Heavier syntax, less flexible              | Lightweight and hierarchical           |
+
+14. Middleware vs HttpModule
+| Middleware (ASP.NET Core)     | HttpModule (ASP.NET Framework)       |
+| ----------------------------- | ------------------------------------ |
+| Component in request pipeline | Event-based request handler          |
+| Fully configurable & ordered  | Harder to configure order            |
+| Cross-platform (Core)         | Windows/IIS specific                 |
+| Replaces HttpModules in Core  | Works only in classic ASP.NET        |
+| Uses RequestDelegate pattern  | Uses BeginRequest, EndRequest events |
+
+15. Razor View vs Razor Page (ASP.NET Core)
+| Razor View                              | Razor Page                             |
+| --------------------------------------- | -------------------------------------- |
+| Used in ASP.NET MVC architecture        | New page-centric model in ASP.NET Core |
+| Requires Controller to return View      | Does not need a Controller             |
+| Good for complex MVC apps               | Good for simple CRUD pages             |
+| Code-behind logic resides in Controller | Code-behind logic in .cshtml.cs file   |
+| More control over routing               | Simplified routing                     |
+
+
+
+
